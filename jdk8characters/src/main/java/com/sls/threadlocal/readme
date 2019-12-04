@@ -1,0 +1,41 @@
+static final ThreadLocal<T> sThreadLocal = new ThreadLocal<T>();
+sThreadLocal.set()
+sThreadLocal.get()
+
+ThreadLocal提供了线程内存储变量的能力，这些变量不同之处在于每一个线程读取的变量是对应的互相独立的。通过get和set方法就可以得到当前线程对应的值。
+        【 ThreadLocal<Integer> integerThreadLocal = new ThreadLocal<>();】
+        【ThreadLocal<String> StringThreadLocal = new ThreadLocal<>();   】
+        【ThreadLocal<Double> doubleThreadLocal = new ThreadLocal<>();   】
+对于单个线程来说：它有内部有一个threadlocalMap对象 =>可以存储多个不同的threalocal对象和值<threadlocal,value>【键值对】。
+                ====放在同一个的table中保存，存在table的不同位置。
+
+对于单个threadlocal来说：在不同的线程之间进行的get()和set()方法的时候，
+                    放入或取出的时候先确定当前的是哪一个线程的threadlocalmap，然后将theadlocal对象和值放入其中或取出。
+                 ====放在不同的table中，的相同位置
+
+
+
+//set 方法
+public void set(T value) {
+      //获取当前线程
+      Thread t = Thread.currentThread();
+      //实际存储的数据结构类型
+      ThreadLocalMap map = getMap(t);
+      //如果存在map就直接set，没有则创建map并set
+      if (map != null)
+          map.set(this, value);   //this指的是当前的threadlocal对象
+      else
+          createMap(t, value);  //创建一个新的ThreadLocalMap对象 并赋值当前线程的threadLocalMap中
+}
+
+//getMap方法
+ThreadLocalMap getMap(Thread t) {
+      //thred中维护了一个ThreadLocalMap
+      return t.threadLocals;
+ }
+
+//createMap
+void createMap(Thread t, T firstValue) {
+      //实例化一个新的ThreadLocalMap，并赋值给线程的成员变量threadLocals
+      t.threadLocals = new ThreadLocalMap(this, firstValue);
+}
