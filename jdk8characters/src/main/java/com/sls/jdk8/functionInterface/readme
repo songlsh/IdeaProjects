@@ -1,0 +1,15 @@
+接口类函数 @FunctionalInterface(这个注解可加可不加 加上能让编译器更好的去查看)
+
+格式：1、首先这个类为一个接口
+     2、接口内部只能有一个自己定义的抽象方法
+     3、可以有公开的静态方法  默认方法 还有Object类的方法
+         public static void doSleep(){
+
+         }
+         public default void doB(){
+
+         }
+         ======================================
+         public String toString();
+
+         public boolean equals(Object obj);
