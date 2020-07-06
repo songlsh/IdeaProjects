@@ -1,0 +1,27 @@
+server:
+  port: 5555
+
+spring:
+  application:
+    name: api-gateway
+zuul:
+  routes:
+    api-a:
+      path: /api-a/**
+      serviceId: rookie
+
+    api-b:
+      path: /api-b/**
+      serviceId: feign_consumer
+
+eureka:
+  client:
+    service-url:
+      defaultZone:
+        http://peer1:1111/eureka
+ribbon:
+    eureka:
+      enabled: true
+api-a:
+  ribbon:
+    listOfServers: http://localhost:8888,http://localhost:9999

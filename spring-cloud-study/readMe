@@ -1,0 +1,21 @@
+续约保活
+Renew操作会在Service Provider定时发起，用来通知Eureka Server自己还活着。 这里有两个比较重要的配置需要如下，可以在Run之前配置。
+eureka.instance.leaseRenewalIntervalInSecondsRenew频率。默认是30秒，也就是每30秒会向Eureka Server发起Renew操作。
+
+eureka.instance.leaseExpirationDurationInSeconds  失效时间
+服务失效时间。默认是90秒，也就是如果Eureka Server在90秒内没有接收到来自Service Provider的Renew操作，就会把Service Provider剔除
+
+
+spring cloud hystrix 熔断保护机制、
+具备服务降级 服务熔断 线程和信号隔离、请求缓存 请求合并以及服务监控等强大的功能。
+构建一个HystrixCommend
+会有四个命令方式、
+execute 同步执行  单一结果对象
+queue 异步执行 返回一个Future对象 单一结果对象
+
+observe() 返回Observable对象 代表了多个执行结果 是一个hot Observable
+toObservable()  返回Observable对象 代表了多个执行结果 是一个cold Observable
+
+或HystrixObservableCommend对象
+
+通过“舱壁模式”对实现依赖的线程池进行隔离

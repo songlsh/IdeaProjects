@@ -1,0 +1,4 @@
+Class类 获取Class对象的三种方式
+1、实例对象.getClass()
+2、Class.forName(完整的类路径名称);
+3、类名.Class

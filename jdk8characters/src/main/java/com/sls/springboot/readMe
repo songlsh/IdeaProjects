@@ -1,0 +1,27 @@
+@import
+1、直接导入普通的类
+2、导入实现了importSelector接口的类
+3、导入实现了importBeanDefinitionRegister接口的类
+
+
+查看importSelector接口类
+这个注解通常使用在@configuration上 用于导入某个类
+
+ * <p>An {@link ImportSelector} may implement any of the following
+ * {@link org.springframework.beans.factory.Aware Aware} interfaces, and their respective
+ * methods will be called prior to {@link #selectImports}:
+
+ 如果实现ImportSelector接口同时实现了org.springframework.beans.factory.Aware Aware} interfaces类型的接口（以下的四种），
+ 他们的优先级比实现selectImports 高
+ * <ul>
+ * <li>{@link org.springframework.context.EnvironmentAware EnvironmentAware}</li>
+ * <li>{@link org.springframework.beans.factory.BeanFactoryAware BeanFactoryAware}</li>
+ * <li>{@link org.springframework.beans.factory.BeanClassLoaderAware BeanClassLoaderAware}</li>
+ * <li>{@link org.springframework.context.ResourceLoaderAware ResourceLoaderAware}</li>
+ * </ul>
+
+
+ =========================================
+ 实现了importBeanDefinitionRegister接口的类 和importSelector类似
+ 相当于手动注册进去了
+
