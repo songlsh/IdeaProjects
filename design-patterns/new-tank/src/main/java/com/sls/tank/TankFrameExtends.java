@@ -9,18 +9,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-/**
- * 只作为页面的展示部分
- */
 public class TankFrameExtends extends Frame {
-
-
-    // 构造对象 设置弹出框的大小设置
-    public static final int PAINT_WIDTH = 800;
-    public static final int PAINT_HEIGHT = 600;
 
     GameModel gm = new GameModel();
 
+    private static final int PAINT_WIDTH = 1080;
+    private static final int PAINT_HEIGHT = 600;
+
+    // 构造对象 设置弹出框的大小设置
     public TankFrameExtends() throws HeadlessException {
         //设置大小
         this.setSize(PAINT_WIDTH, PAINT_HEIGHT);
@@ -46,20 +42,7 @@ public class TankFrameExtends extends Frame {
         });
     }
 
-    /**
-     * paint方法是在每次刷新新窗口的时候进行的
-     *
-     * @param g
-     */
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-
-        gm.paint(g);
-    }
-
     // 画板对象
-
     Image image = null;
 
     /**
@@ -72,6 +55,7 @@ public class TankFrameExtends extends Frame {
             //在缓存中创建一个和现在屏幕一样打的画板
             image = this.createImage(PAINT_WIDTH, PAINT_HEIGHT);
         }
+
         // 在内存中创建一个画笔
         Graphics graphics = image.getGraphics();
         Color color = graphics.getColor();
@@ -82,9 +66,26 @@ public class TankFrameExtends extends Frame {
         paint(graphics);
         // 调用g显示到屏幕上
         g.drawImage(image, 0, 0, null);
-
-
     }
+
+    /**
+     * paint方法是在每次刷新新窗口的时候进行的
+     *
+     * @param g
+     */
+    @Override
+    public void paint(Graphics g) {
+//        super.paint(g);
+        gm.paint(g);
+    }
+    public static int getPaintWidth() {
+        return PAINT_WIDTH;
+    }
+
+    public static int getPaintHeight() {
+        return PAINT_HEIGHT;
+    }
+
 
     /**
      * 监听键盘
@@ -122,8 +123,9 @@ public class TankFrameExtends extends Frame {
          * 设置方向 根据坦克来的
          */
         private void setMainDir() {
-            Tank tank = gm.createMyTank();
-            if (!KL && !KU && !KR && !KD) tank.setMoving(false);
+            Tank tank = gm.getMainTank();
+            if (!KL && !KU && !KR && !KD)
+                tank.setMoving(false);
             else {
                 tank.setMoving(true);
                 if (KL) tank.setDir(Direction.LEFT);
@@ -152,7 +154,7 @@ public class TankFrameExtends extends Frame {
                     break;
                 case KeyEvent.VK_CONTROL:
                     // 设置键盘释放的时候触发的方法
-                    gm.createMyTank().fire();
+                    gm.getMainTank().fire();
                     break;
                 default:
                     break;

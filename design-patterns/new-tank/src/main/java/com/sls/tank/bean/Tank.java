@@ -14,11 +14,8 @@ import java.util.*;
 /**
  * 构建tank类
  */
-public class Tank {
-    // 坦克 坐标x
-    private int x;
-    // 坦克 坐标y
-    private int y ;
+public class Tank extends GameObject{
+
     // 坦克 宽
     public int TANK_WIDTH = LoadImage.tankD.getWidth();
     // 坦克高
@@ -29,39 +26,43 @@ public class Tank {
     // 偏移量
     private static final int MOVE = 2;
 
-    //添加画板对象来获取对应的子弹类
+    // 记录tank上次坐标
+    int lastx;
+    int lasty;
 
-    private GameModel gm = null;
+    //添加画板对象来获取对应的子弹类
+    private GameModel gm;
     public Group group = Group.BAD;
 
     //坦克的停止和移动
-
     private  boolean moving = true;
     private boolean living = true;
 
     private IFire fire;
     // 减少碰撞检测中每次都进行创建这个对象，可以把这个和每个tank位置进行绑定
     public Rectangle rectangle = new Rectangle();
-
-    public GameModel getGm() {
-        return gm;
-    }
-
     public Tank(int x, int y, Direction dir, GameModel gm, Group group) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.gm = gm;
         this.group = group;
-        // 坦克策略模式
-        fire = this.group == Group.BAD ? new DefaultFireImpl(): new FourFireImpl();
-
         // 初始化rectangle对象和tank位置进行绑定
         rectangle.x = this.x;
         rectangle.y = this.y;
         rectangle.height = this.TANK_HEIGHT;
         rectangle.width = this.TANK_WIDTH;
+        // 坦克策略模式
+        fire = this.group == Group.BAD ? new DefaultFireImpl(): new FourFireImpl();
 
+    }
+
+    public GameModel getGm() {
+        return gm;
+    }
+
+    public void setGm(GameModel gm) {
+        this.gm = gm;
     }
 
     public boolean isMoving() {
@@ -111,8 +112,15 @@ public class Tank {
         drawTank(g);
         move();
     }
+
+    public void back(){
+        x = lastx;
+        y = lasty;
+    }
     // 模拟移动 实际就是让坐标发生了变化
     private void move() {
+        lastx = x;
+        lasty = y;
         if(! moving) return;
         switch (dir) {
             case LEFT:
@@ -148,8 +156,8 @@ public class Tank {
     private void borderCheck() {
         if(this.x < 2) x = 2;
         if(this.y < 20) y = 20;
-        if(this.x > TankFrameExtends.PAINT_WIDTH)this.x = TankFrameExtends.HEIGHT - TANK_WIDTH-2;
-        if(this.y > TankFrameExtends.PAINT_WIDTH-TANK_HEIGHT) this.y = TankFrameExtends.HEIGHT-TANK_HEIGHT-2;
+        if(this.x > TankFrameExtends.getPaintWidth()-TANK_WIDTH) this.x = TankFrameExtends.getPaintWidth() - TANK_WIDTH-2;
+        if(this.y > TankFrameExtends.getPaintHeight()-TANK_HEIGHT) this.y = TankFrameExtends.getPaintHeight()-TANK_HEIGHT-2;
 
     }
 
@@ -178,15 +186,15 @@ public class Tank {
     }
 
     public void fire() {
-        //fire.fire(this);
-
-        int bulletX = this.getX() + this.TANK_WIDTH/2 - LoadImage.BulletD.getWidth()/2;
-        int bulletY = this.getY() + this.TANK_HEIGHT/2 - LoadImage.BulletD.getHeight()/2;
-        new Bullet(bulletX, bulletY, this.dir, this.getGm(), this.group);
+        fire.fire(this);
     }
 
     public void die() {
         this.living = false;
-        gm.getEnemyTanks().remove(this);
+        gm.getGameObjects().remove(this);
+    }
+
+    public void stop() {
+        this.moving = false;
     }
 }

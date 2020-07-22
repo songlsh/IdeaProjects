@@ -11,20 +11,16 @@ import java.util.Random;
 /**
  * 构建炸弹类
  */
-public class Exploded {
-    // 炸弹 坐标x
-    private int x;
-    // 炸弹 坐标y
-    private int y ;
+public class Exploded  extends  GameObject{
 
-    private GameModel gm;
+    private GameModel gm = null;
     private boolean living = true;
 
     private  int step = 0;
     public Exploded(int x, int y, GameModel gm) {
         this.x = x;
         this.y = y;
-        this.gm =gm;
+        this.gm = gm;
     }
 
     public int getX() {
@@ -52,6 +48,6 @@ public class Exploded {
     private void drawTankExploded(Graphics g) {
      g.drawImage(LoadImage.exploded[step++], x, y, null);
      if(step >= LoadImage.exploded.length)
-     gm.getExploded().remove(this);
+     gm.getGameObjects().remove(this);
     }
 }

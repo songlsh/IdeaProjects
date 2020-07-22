@@ -10,11 +10,7 @@ import java.awt.*;
 /**
  * 构建tank类
  */
-public class Bullet {
-    // 子弹 坐标x
-    private int x;
-    // 子弹 坐标y
-    private int y ;
+public class Bullet  extends  GameObject{
 
     private static int WIDTH = LoadImage.BulletD.getWidth();
 
@@ -42,17 +38,14 @@ public class Bullet {
         this.dir = dir;
         this.gm = gm;
         this.group = group;
-        this.gm.getBullets().add(this);
 
         // 初始化rectangle对象和子弹位置进行绑定
         rectangle.x = this.x;
         rectangle.y = this.y;
-        rectangle.height = Bullet.HEIGHT;
-        rectangle.width = Bullet.WIDTH;
-    }
+        rectangle.height = HEIGHT;
+        rectangle.width =  WIDTH;
 
-    public GameModel getGm() {
-        return gm;
+        this.gm.getGameObjects().add(this);
     }
 
     public int getX() {
@@ -79,9 +72,22 @@ public class Bullet {
         this.dir = dir;
     }
 
-    // 子弹的移动方法
+    public Group getGroup() {
+        return group;
+    }
+
+    public Rectangle getRectangle() {
+        return rectangle;
+    }
+
+    public GameModel getGm() {
+        return gm;
+    }
+
+    // tank的移动方法
     public void paintMove(Graphics g){
-        if(!living) gm.getBullets().remove(this);;
+
+        if(!living) gm.getGameObjects().remove(this);;
         drawImage(g);
         move();
     }
@@ -125,8 +131,9 @@ public class Bullet {
         // tank移动完以后需要 更新可能的碰撞坐标
         rectangle.x = this.x;
         rectangle.y = this.y;
+
         //子弹移动完之后判断是否超出了边界
-        if (x < 0 || y < 0 || x > TankFrameExtends.WIDTH || y > TankFrameExtends.HEIGHT) {
+        if (x < 0 || y < 0 || x > TankFrameExtends.getPaintWidth() || y > TankFrameExtends.getPaintHeight()) {
             living = false;
         }
     }
@@ -144,11 +151,11 @@ public class Bullet {
             tank.die();
             int exploedX = tank.getX()+LoadImage.tankD.getWidth()/2;
             int exploedY = tank.getY()+LoadImage.tankD.getHeight()/2;
-            this.gm.getExploded().add(new Exploded(exploedX,exploedY, this.gm));
+            this.gm.getGameObjects().add(new Exploded(exploedX,exploedY, this.gm));
         }
     }
 
-    private void die() {
+    public void die() {
         this.living = false;
     }
 }

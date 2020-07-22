@@ -18,6 +18,8 @@ public class LoadImage {
     public static  BufferedImage BulletL ;
     public static  BufferedImage BulletR ;
 
+    public static  BufferedImage square0 ;
+
     public static  BufferedImage exploded[] = new BufferedImage[16];
 
     static {
@@ -33,6 +35,10 @@ public class LoadImage {
             BulletD = ImageIO.read(LoadImage.class.getClassLoader().getResourceAsStream("images/bulletD.gif"));
             BulletL= ImageIO.read(LoadImage.class.getClassLoader().getResourceAsStream("images/bulletL.gif"));
             BulletR = ImageIO.read(LoadImage.class.getClassLoader().getResourceAsStream("images/bulletR.gif"));
+
+            square0 = ImageIO.read(LoadImage.class.getClassLoader().getResourceAsStream("images/square0.jpg"));
+
+
 
             for (int i = 1; i < exploded.length; i++) {
                 exploded[i] = ImageIO.read(LoadImage.class.getClassLoader().getResourceAsStream("images/e"+i+".gif"));

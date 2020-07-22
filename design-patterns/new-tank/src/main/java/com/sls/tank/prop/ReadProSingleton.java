@@ -3,6 +3,9 @@ package com.sls.tank.prop;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * 获取属性
+ */
 public class ReadProSingleton {
 
     private static final ReadProSingleton readProSingleton = new ReadProSingleton();
