@@ -8,7 +8,7 @@ import com.sls.tank.TankFrameExtends;
 import java.awt.*;
 
 /**
- * 构建tank类
+ * 构建wall类
  */
 public class Wall extends  GameObject{
 
@@ -19,19 +19,16 @@ public class Wall extends  GameObject{
     // 定义一个方向
     private Direction dir = Direction.LEFT;
 
-    private GameModel gm;
-
     // 墙体是否存活
 //    private boolean living = true;
 
     // 减少碰撞检测中每次都进行创建这个对象，可以把这个和每个bullet位置进行绑定
     private Rectangle rectangle = new Rectangle();
 
-    public Wall(int x, int y, Direction dir, GameModel gm) {
+    public Wall(int x, int y, Direction dir) {
         this.x = x;
         this.y = y;
         this.dir = dir;
-        this.gm = gm;
 
         // 初始化rectangle对象和子弹位置进行绑定
         rectangle.x = this.x;
@@ -39,7 +36,7 @@ public class Wall extends  GameObject{
         rectangle.height = HEIGHT;
         rectangle.width =  WIDTH;
 
-        this.gm.getGameObjects().add(this);
+        GameModel.getInstace().getGameObjects().add(this);
     }
 
     public int getX() {
@@ -68,10 +65,6 @@ public class Wall extends  GameObject{
 
     public Rectangle getRectangle() {
         return rectangle;
-    }
-
-    public GameModel getGm() {
-        return gm;
     }
 
     // wall的移动方法

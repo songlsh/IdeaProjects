@@ -13,14 +13,12 @@ import java.util.Random;
  */
 public class Exploded  extends  GameObject{
 
-    private GameModel gm = null;
     private boolean living = true;
 
     private  int step = 0;
-    public Exploded(int x, int y, GameModel gm) {
+    public Exploded(int x, int y) {
         this.x = x;
         this.y = y;
-        this.gm = gm;
     }
 
     public int getX() {
@@ -48,6 +46,6 @@ public class Exploded  extends  GameObject{
     private void drawTankExploded(Graphics g) {
      g.drawImage(LoadImage.exploded[step++], x, y, null);
      if(step >= LoadImage.exploded.length)
-     gm.getGameObjects().remove(this);
+         GameModel.getInstace().getGameObjects().remove(this);
     }
 }

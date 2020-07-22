@@ -11,8 +11,6 @@ import java.awt.event.WindowEvent;
 
 public class TankFrameExtends extends Frame {
 
-    GameModel gm = new GameModel();
-
     private static final int PAINT_WIDTH = 1080;
     private static final int PAINT_HEIGHT = 600;
 
@@ -76,7 +74,7 @@ public class TankFrameExtends extends Frame {
     @Override
     public void paint(Graphics g) {
 //        super.paint(g);
-        gm.paint(g);
+        GameModel.getInstace().paint(g);
     }
     public static int getPaintWidth() {
         return PAINT_WIDTH;
@@ -123,7 +121,7 @@ public class TankFrameExtends extends Frame {
          * 设置方向 根据坦克来的
          */
         private void setMainDir() {
-            Tank tank = gm.getMainTank();
+            Tank tank = GameModel.getInstace().getMainTank();
             if (!KL && !KU && !KR && !KD)
                 tank.setMoving(false);
             else {
@@ -154,7 +152,7 @@ public class TankFrameExtends extends Frame {
                     break;
                 case KeyEvent.VK_CONTROL:
                     // 设置键盘释放的时候触发的方法
-                    gm.getMainTank().fire();
+                    GameModel.getInstace().getMainTank().fire();
                     break;
                 default:
                     break;

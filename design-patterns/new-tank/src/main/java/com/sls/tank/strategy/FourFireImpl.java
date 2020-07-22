@@ -12,7 +12,7 @@ public class FourFireImpl implements IFire {
         int bulletY = tank.getY() + tank.TANK_HEIGHT/2 - LoadImage.BulletD.getHeight()/2;
         //循环添加四个方向
         for (Direction dir:Direction.values()) {
-             new Bullet(bulletX, bulletY, dir, tank.getGm(), tank.group);
+             new Bullet(bulletX, bulletY, dir, tank.group);
         }
     }
 }

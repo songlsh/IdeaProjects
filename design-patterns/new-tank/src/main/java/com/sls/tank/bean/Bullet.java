@@ -21,8 +21,6 @@ public class Bullet  extends  GameObject{
     // 偏移量
     private static final int MOVE = 3;
 
-    private GameModel gm;
-
     // 子弹是否存活
     private boolean living = true;
 
@@ -32,11 +30,10 @@ public class Bullet  extends  GameObject{
     // 减少碰撞检测中每次都进行创建这个对象，可以把这个和每个bullet位置进行绑定
     private Rectangle rectangle = new Rectangle();
 
-    public Bullet(int x, int y, Direction dir, GameModel gm, Group group) {
+    public Bullet(int x, int y, Direction dir, Group group) {
         this.x = x;
         this.y = y;
         this.dir = dir;
-        this.gm = gm;
         this.group = group;
 
         // 初始化rectangle对象和子弹位置进行绑定
@@ -45,7 +42,7 @@ public class Bullet  extends  GameObject{
         rectangle.height = HEIGHT;
         rectangle.width =  WIDTH;
 
-        this.gm.getGameObjects().add(this);
+        GameModel.getInstace().getGameObjects().add(this);
     }
 
     public int getX() {
@@ -80,14 +77,10 @@ public class Bullet  extends  GameObject{
         return rectangle;
     }
 
-    public GameModel getGm() {
-        return gm;
-    }
-
     // tank的移动方法
     public void paintMove(Graphics g){
 
-        if(!living) gm.getGameObjects().remove(this);;
+        if(!living) GameModel.getInstace().getGameObjects().remove(this);;
         drawImage(g);
         move();
     }
@@ -151,7 +144,7 @@ public class Bullet  extends  GameObject{
             tank.die();
             int exploedX = tank.getX()+LoadImage.tankD.getWidth()/2;
             int exploedY = tank.getY()+LoadImage.tankD.getHeight()/2;
-            this.gm.getGameObjects().add(new Exploded(exploedX,exploedY, this.gm));
+            GameModel.getInstace().getGameObjects().add(new Exploded(exploedX,exploedY));
         }
     }
 

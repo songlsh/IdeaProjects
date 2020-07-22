@@ -13,27 +13,39 @@ import java.util.List;
  * model
  */
 public class GameModel  {
+
+    //单例化GameModel
+    private static  final  GameModel gameModel = new GameModel();
+
+    static {
+        gameModel.init();
+    }
+
+    private GameModel() {
+    }
     // 设定我方坦克为好
-    Tank tank = new Tank(200, 400, Direction.UP, this, Group.GOOD);
+    Tank tank;
+    private  List<GameObject> gameObjects = new ArrayList<>();
 
-    private List<GameObject> gameObjects = new ArrayList<>();
-
-//    Collider compiler = new TBColliderImpl();
     ColliderChain compiler = new ColliderChain();
 
-    public GameModel() {
+
+    public static GameModel getInstace() {
+        return gameModel;
+    }
+
+    private void init() {
+        tank = new Tank(200, 400, Direction.UP, Group.GOOD);
         ReadProSingleton instance = ReadProSingleton.getInstance();
         int tankTest = Integer.parseInt((String) instance.getPro("test"));
 
         for (int i = 0; i < tankTest; i++) {
-            gameObjects.add(new Tank(80+i*80, 100, Direction.DOWN, this, Group.BAD));
+            new Tank(80+i*80, 100, Direction.DOWN,  Group.BAD);
         }
-        gameObjects.add( new Wall(100,300, Direction.LEFT,this));
-        gameObjects.add( new Wall(300,200, Direction.RIGHT,this));
-        gameObjects.add( new Wall(500,300, Direction.UP,this));
+        new Wall(100,300, Direction.LEFT);
+        new Wall(300,200, Direction.RIGHT);
+        new Wall(500,300, Direction.UP);
     }
-
-
 
     public void paint(Graphics g) {
         Color c = g.getColor();

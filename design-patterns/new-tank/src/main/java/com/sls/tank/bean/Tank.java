@@ -30,8 +30,6 @@ public class Tank extends GameObject{
     int lastx;
     int lasty;
 
-    //添加画板对象来获取对应的子弹类
-    private GameModel gm;
     public Group group = Group.BAD;
 
     //坦克的停止和移动
@@ -41,11 +39,10 @@ public class Tank extends GameObject{
     private IFire fire;
     // 减少碰撞检测中每次都进行创建这个对象，可以把这个和每个tank位置进行绑定
     public Rectangle rectangle = new Rectangle();
-    public Tank(int x, int y, Direction dir, GameModel gm, Group group) {
+    public Tank(int x, int y, Direction dir,Group group) {
         this.x = x;
         this.y = y;
         this.dir = dir;
-        this.gm = gm;
         this.group = group;
         // 初始化rectangle对象和tank位置进行绑定
         rectangle.x = this.x;
@@ -54,15 +51,8 @@ public class Tank extends GameObject{
         rectangle.width = this.TANK_WIDTH;
         // 坦克策略模式
         fire = this.group == Group.BAD ? new DefaultFireImpl(): new FourFireImpl();
+        if(this.group == Group.BAD)GameModel.getInstace().getGameObjects().add(this);
 
-    }
-
-    public GameModel getGm() {
-        return gm;
-    }
-
-    public void setGm(GameModel gm) {
-        this.gm = gm;
     }
 
     public boolean isMoving() {
@@ -191,7 +181,7 @@ public class Tank extends GameObject{
 
     public void die() {
         this.living = false;
-        gm.getGameObjects().remove(this);
+        GameModel.getInstace().getGameObjects().remove(this);
     }
 
     public void stop() {

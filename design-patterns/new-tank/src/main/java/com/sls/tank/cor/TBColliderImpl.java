@@ -3,6 +3,7 @@ package com.sls.tank.cor;
 import com.sls.tank.LoadImage;
 import com.sls.tank.bean.Bullet;
 import com.sls.tank.bean.Exploded;
+import com.sls.tank.bean.GameModel;
 import com.sls.tank.bean.GameObject;
 import com.sls.tank.bean.Tank;
 
@@ -36,7 +37,7 @@ public class TBColliderImpl implements Collider {
             tank.die();
             int exploedX = tank.getX() + LoadImage.tankD.getWidth() / 2;
             int exploedY = tank.getY() + LoadImage.tankD.getHeight() / 2;
-            bullet.getGm().getGameObjects().add(new Exploded(exploedX, exploedY, bullet.getGm()));
+            GameModel.getInstace().getGameObjects().add(new Exploded(exploedX, exploedY));
             return true;
         }
         return false;

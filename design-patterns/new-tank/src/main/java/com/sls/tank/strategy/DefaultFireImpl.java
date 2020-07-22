@@ -9,6 +9,6 @@ public class DefaultFireImpl implements IFire {
     public void fire(Tank tank) {
         int bulletX = tank.getX() + tank.TANK_WIDTH/2 - LoadImage.BulletD.getWidth()/2;
         int bulletY = tank.getY() + tank.TANK_HEIGHT/2 - LoadImage.BulletD.getHeight()/2;
-        new Bullet(bulletX, bulletY, tank.dir, tank.getGm(), tank.group);
+        new Bullet(bulletX, bulletY, tank.dir, tank.group);
     }
 }
